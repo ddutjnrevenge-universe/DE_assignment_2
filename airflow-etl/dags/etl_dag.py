@@ -58,6 +58,9 @@ def transform(**kwargs):
         if pdf_link_element:
             pdf_link = pdf_link_element['href']
             song['pdf_url'] = pdf_link
+        # when the href exist but not in the format "https://nhacnheo.com/..., add the prefix"
+            if not song['pdf_url'].startswith("https://nhacnheo.com/"):
+                song['pdf_url'] = "https://nhacnheo.com" + song['pdf_url']
         else:
             song['pdf_url'] = None
     #save the updated songs list to a csv file
@@ -99,6 +102,24 @@ def upload_to_database(song):
         })
         print(f"Document with title '{song['title']}' already exists, updated the document.")
 
+# upload pdf file from song['pdf_url'] to firebase storage in folder named original
+def upload_pdf_to_firebase(pdf_url, file_name):
+    # check if the file with same song title already exists in the storage
+    blob = bucket.blob(f"original/{file_name}")
+    if not blob.exists():
+        response = requests.get(pdf_url)
+        with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+            temp_file.write(response.content)
+            temp_file.seek(0)
+            blob.upload_from_file(temp_file)
+        return blob.public_url
+    else:
+        print(f"File with name '{file_name}' already exists in the storage.")
+        return blob.public_url
+    
+        
+        
+
 def load(**kwargs):
     ti = kwargs['ti']
     songs = ti.xcom_pull(task_ids='transform')
@@ -108,6 +129,8 @@ def load(**kwargs):
         f.write(str(songs))
     for song in songs:
         upload_to_database(song)
+        upload_pdf_to_firebase(song['pdf_url'], f"{song['title'].replace(' ', '_')}.pdf")
+
 
 default_args = {
     'owner': 'airflow',
