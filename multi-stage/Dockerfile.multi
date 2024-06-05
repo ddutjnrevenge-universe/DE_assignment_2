@@ -1,0 +1,18 @@
+# Multi-Stage Dockerfile
+# Build Stage
+FROM openjdk:11-jdk AS build
+
+WORKDIR /app
+
+COPY . .
+
+RUN javac Main.java
+
+# Runtime Stage
+FROM openjdk:11-jre-slim
+
+WORKDIR /app
+
+COPY --from=build /app .
+
+CMD ["java", "Main"]

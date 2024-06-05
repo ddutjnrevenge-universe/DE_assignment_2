@@ -1,0 +1,19 @@
+# Dockerfile.optimized
+
+# Stage 1: Build
+FROM openjdk:8-jdk-alpine AS build
+
+WORKDIR /app
+
+COPY Main.java .
+
+RUN javac Main.java
+
+# Stage 2: Runtime
+FROM openjdk:8-jre-alpine
+
+WORKDIR /app
+
+COPY --from=build /app .
+
+CMD ["java", "Main"]

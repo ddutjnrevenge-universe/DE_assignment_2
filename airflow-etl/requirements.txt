@@ -1,0 +1,6 @@
+apache-airflow
+pandas
+requests
+beautifulsoup4
+psycopg2-binary
+firebase-admin
