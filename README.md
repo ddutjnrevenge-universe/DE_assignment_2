@@ -30,12 +30,12 @@ This project sets up a scalable and efficient data pipeline for crawling, extrac
 **A DAG (Directed Acyclic Graph) is defined in Airflow to schedule and manage the ETL tasks.**
 
 # Ex2: Why docker-compose?
-- Easier management and control: we can define and manage multi-container apps in a single YAML file -> simplified orchestration task and combining various services -> easier to manage and replicate app environment
-- Rapid app development: Compose chaches the config used to create a container so when you restart a service that has not changed, it reuses existing containers, so we can make changes to our environment very quickly
-- Portability across environments: we can set variables in Compose file to customzie composition for different environments or different users to config services
-- Efficient collab: docker-compose file easy to share and allow collaboration between dev and other stakeholders
+- **Easier management and control**: we can define and manage multi-container apps in a single YAML file -> simplified orchestration task and combining various services -> easier to manage and replicate app environment
+- **Rapid app development**: Compose chaches the config used to create a container so when you restart a service that has not changed, it reuses existing containers, so we can make changes to our environment very quickly
+- **Portability across environments**: we can set variables in Compose file to customzie composition for different environments or different users to config services
+- **Efficient collaboration**: docker-compose file easy to share and allow collaboration between dev and other stakeholders
 
-Use cases: Development environments, Automated testing environment
+`Use cases`: Development environments, Automated testing environment
 <!-- 
 Tạo ra nhiều môi trường độc lập (isolated environments) trong một host: Compose cô lập môi trường của các project để đảm bảo chúng không bị xung đột lẫn nhau, cũng như dễ dàng tạo những bản sao của một môi trường nào đó.
 
